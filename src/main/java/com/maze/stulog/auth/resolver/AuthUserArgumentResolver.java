@@ -43,7 +43,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             throw new BusinessException(ExceptionCode.FAILED_TO_VALIDATE_TOKEN);
         }
 
-        String refreshToken = extractRefreshToken(request);
+        //String refreshToken = extractRefreshToken(request);
         String accessToken = extractAccessToken(request);
 
         //검증
