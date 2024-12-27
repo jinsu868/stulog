@@ -5,9 +5,11 @@ import com.maze.stulog.member.domain.Member;
 import com.maze.stulog.schedule.application.ScheduleService;
 import com.maze.stulog.schedule.dto.request.PersonalCalendarCreateRequest;
 import com.maze.stulog.schedule.dto.request.ScheduleCreateRequest;
+import com.maze.stulog.schedule.dto.request.ScheduleUpdateRequest;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +42,17 @@ public class ScheduleController {
         Long scheduleId = scheduleService.saveSchedule(calendarId, member, scheduleCreateRequest);
 
         return ResponseEntity.created(URI.create("api/v1/schedules/" + scheduleId)).build();
+    }
+
+    @PatchMapping("/schedules/{scheduleId}")
+    public ResponseEntity<Void> updateSchedule(
+            @PathVariable(name = "scheduleId") Long scheduleId,
+            @AuthUser Member member,
+            @RequestBody ScheduleUpdateRequest scheduleUpdateRequest
+    ) {
+        scheduleService.updateSchedule(scheduleId, member, scheduleUpdateRequest);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

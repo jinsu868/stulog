@@ -1,6 +1,7 @@
 package com.maze.stulog.schedule.domain.repository;
 
 import com.maze.stulog.schedule.domain.Schedule;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +13,9 @@ public class ScheduleRepository {
 
     public Schedule save(Schedule schedule) {
         return scheduleJpaRepository.save(schedule);
+    }
+
+    public Optional<Schedule> findById(Long scheduleId) {
+        return scheduleJpaRepository.findById(scheduleId);
     }
 }

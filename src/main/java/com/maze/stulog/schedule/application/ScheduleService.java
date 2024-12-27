@@ -2,6 +2,7 @@ package com.maze.stulog.schedule.application;
 
 import static com.maze.stulog.common.error.ExceptionCode.*;
 import static com.maze.stulog.schedule.domain.PermissionLevel.INSERT_SCHEDULE;
+import static com.maze.stulog.schedule.domain.PermissionLevel.UPDATE_SCHEDULE;
 
 import com.maze.stulog.common.error.BusinessException;
 import com.maze.stulog.member.domain.Member;
@@ -15,6 +16,7 @@ import com.maze.stulog.schedule.domain.repository.CalendarRepository;
 import com.maze.stulog.schedule.domain.repository.ScheduleRepository;
 import com.maze.stulog.schedule.dto.request.PersonalCalendarCreateRequest;
 import com.maze.stulog.schedule.dto.request.ScheduleCreateRequest;
+import com.maze.stulog.schedule.dto.request.ScheduleUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,6 +79,30 @@ public class ScheduleService {
         );
 
         return scheduleRepository.save(schedule).getId();
+    }
+
+    @Transactional
+    public void updateSchedule(
+            Long scheduleId,
+            Member member,
+            ScheduleUpdateRequest scheduleUpdateRequest
+    ) {
+        Schedule schedule = findSchedule(scheduleId);
+        Long calendarId = schedule.getCalendar().getId();
+        CalendarAuthority calendarAuthority = findCalendarAuthority(calendarId, member);
+        calendarAuthority.validateRole(UPDATE_SCHEDULE);
+
+        schedule.update(
+                scheduleUpdateRequest.title(),
+                scheduleUpdateRequest.content(),
+                scheduleUpdateRequest.startTime(),
+                scheduleUpdateRequest.endTime()
+        );
+    }
+
+    private Schedule findSchedule(Long scheduleId) {
+        return scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new BusinessException(SCHEDULE_NOT_FOUND));
     }
 
     private CalendarAuthority findCalendarAuthority(Long calendarId, Member member) {
