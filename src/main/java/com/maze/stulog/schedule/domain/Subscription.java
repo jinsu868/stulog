@@ -28,12 +28,16 @@ public class Subscription {
     @Column(nullable = false)
     private Long memberId;
 
+    @Column(nullable = false)
+    private boolean checked;
+
     private Subscription(
             Calendar calendar,
             Long memberId
     ) {
         this.calendar = calendar;
         this.memberId = memberId;
+        this.checked = true;
     }
 
     public static Subscription of(
