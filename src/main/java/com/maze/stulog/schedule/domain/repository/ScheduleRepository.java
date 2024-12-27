@@ -18,4 +18,8 @@ public class ScheduleRepository {
     public Optional<Schedule> findById(Long scheduleId) {
         return scheduleJpaRepository.findById(scheduleId);
     }
+
+    public void delete(Schedule schedule) {
+        scheduleJpaRepository.delete(schedule);
+    }
 }

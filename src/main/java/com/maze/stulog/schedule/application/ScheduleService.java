@@ -1,6 +1,7 @@
 package com.maze.stulog.schedule.application;
 
 import static com.maze.stulog.common.error.ExceptionCode.*;
+import static com.maze.stulog.schedule.domain.PermissionLevel.DELETE_SCHEDULE;
 import static com.maze.stulog.schedule.domain.PermissionLevel.INSERT_SCHEDULE;
 import static com.maze.stulog.schedule.domain.PermissionLevel.UPDATE_SCHEDULE;
 
@@ -81,6 +82,12 @@ public class ScheduleService {
         return scheduleRepository.save(schedule).getId();
     }
 
+    /**
+     *
+     * @param scheduleId : 수정하려는 scheduleId
+     * @param member : 로그인한 유저 정보
+     * @param scheduleUpdateRequest : 스케줄 수정 데이터
+     */
     @Transactional
     public void updateSchedule(
             Long scheduleId,
@@ -98,6 +105,21 @@ public class ScheduleService {
                 scheduleUpdateRequest.startTime(),
                 scheduleUpdateRequest.endTime()
         );
+    }
+
+    /**
+     *
+     * @param scheduleId : 삭제하려는 스케줄 Id
+     * @param member : 로그인한 유저 정보
+     */
+    @Transactional
+    public void deleteSchedule(Long scheduleId, Member member) {
+        Schedule schedule = findSchedule(scheduleId);
+        Long calendarId = schedule.getCalendar().getId();
+        CalendarAuthority calendarAuthority = findCalendarAuthority(calendarId, member);
+        calendarAuthority.validateRole(DELETE_SCHEDULE);
+
+        scheduleRepository.delete(schedule);
     }
 
     private Schedule findSchedule(Long scheduleId) {
