@@ -37,4 +37,34 @@ public class Schedule {
 
     @Column(nullable = false)
     private LocalDateTime endTime;
+
+    public static Schedule createSchedule(
+            Calendar calendar,
+            String title,
+            String content,
+            LocalDateTime startTime,
+            LocalDateTime endTime
+    ) {
+        return new Schedule(
+                calendar,
+                title,
+                content,
+                startTime,
+                endTime
+        );
+    }
+
+    private Schedule(
+            Calendar calendar,
+            String title,
+            String content,
+            LocalDateTime startTime,
+            LocalDateTime endTime
+    ) {
+        this.calendar = calendar;
+        this.title = title;
+        this.content = content;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }

@@ -1,6 +1,7 @@
 package com.maze.stulog.schedule.domain.repository;
 
 import com.maze.stulog.schedule.domain.Calendar;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +14,9 @@ public class CalendarRepository {
 
     public Calendar save(Calendar calendar) {
         return calendarJpaRepository.save(calendar);
+    }
+
+    public Optional<Calendar> findById(Long calendarId) {
+        return calendarJpaRepository.findById(calendarId);
     }
 }

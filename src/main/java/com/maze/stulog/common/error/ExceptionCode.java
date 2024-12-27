@@ -16,8 +16,14 @@ public enum ExceptionCode {
     FAILED_TO_VALIDATE_TOKEN(3002, "토큰 검증에 실패했습니다."),
     INVALID_ACCESS_TOKEN(3003, "유효하지 않은 Access Token입니다."),
 
-    MEMBER_NOT_FOUND(4000, "사용자가 존재하지 않습니다.");
+    MEMBER_NOT_FOUND(4000, "사용자가 존재하지 않습니다."),
 
+    /**
+     * 5xxx : 스케줄 관련 에러 코드
+     */
+    CALENDAR_NOT_FOUND(5000, "해당 캘린더를 찾을 수 없습니다."),
+    CALENDAR_AUTHORITY_NOT_FOUND(5001, "해당 CalendarAuthority를 찾을 수 없습니다."),
+    INSUFFICIENT_PERMISSION_LEVEL(5002, "캘린더 접근 권한이 부족합니다.");
 
     private final int code;
     private final String message;
