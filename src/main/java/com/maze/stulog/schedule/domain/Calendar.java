@@ -1,5 +1,6 @@
 package com.maze.stulog.schedule.domain;
 
+import com.maze.stulog.subscription.domain.Subscription;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

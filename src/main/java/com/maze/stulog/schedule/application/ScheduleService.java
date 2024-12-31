@@ -4,7 +4,6 @@ import static com.maze.stulog.common.error.ExceptionCode.*;
 import static com.maze.stulog.schedule.domain.PermissionLevel.DELETE_SCHEDULE;
 import static com.maze.stulog.schedule.domain.PermissionLevel.INSERT_SCHEDULE;
 import static com.maze.stulog.schedule.domain.PermissionLevel.UPDATE_SCHEDULE;
-import static java.util.stream.Collectors.toList;
 
 import com.maze.stulog.common.error.BusinessException;
 import com.maze.stulog.member.domain.Member;
@@ -12,7 +11,7 @@ import com.maze.stulog.schedule.domain.Calendar;
 import com.maze.stulog.schedule.domain.CalendarAuthority;
 import com.maze.stulog.schedule.domain.CalendarRole;
 import com.maze.stulog.schedule.domain.Schedule;
-import com.maze.stulog.schedule.domain.Subscription;
+import com.maze.stulog.subscription.domain.Subscription;
 import com.maze.stulog.schedule.domain.repository.CalendarAuthorityRepository;
 import com.maze.stulog.schedule.domain.repository.CalendarRepository;
 import com.maze.stulog.schedule.domain.repository.ScheduleRepository;

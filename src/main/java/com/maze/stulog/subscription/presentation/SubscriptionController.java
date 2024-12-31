@@ -1,8 +1,8 @@
-package com.maze.stulog.schedule.presentation;
+package com.maze.stulog.subscription.presentation;
 
 import com.maze.stulog.auth.presentation.annotation.AuthUser;
 import com.maze.stulog.member.domain.Member;
-import com.maze.stulog.schedule.application.SubscriptionService;
+import com.maze.stulog.subscription.application.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,6 +1,6 @@
 package com.maze.stulog.schedule.domain.repository;
 
-import com.maze.stulog.schedule.domain.Subscription;
+import com.maze.stulog.subscription.domain.Subscription;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

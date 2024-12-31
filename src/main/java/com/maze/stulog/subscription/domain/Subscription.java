@@ -1,9 +1,9 @@
-package com.maze.stulog.schedule.domain;
+package com.maze.stulog.subscription.domain;
 
 import static com.maze.stulog.common.error.ExceptionCode.NOT_MATCH_USER_AND_SUBSCRIPTION;
 
 import com.maze.stulog.common.error.BusinessException;
-import com.maze.stulog.common.error.ExceptionCode;
+import com.maze.stulog.schedule.domain.Calendar;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,8 +1,6 @@
 package com.maze.stulog.schedule.domain.repository;
 
-import com.maze.stulog.schedule.domain.Calendar;
-import com.maze.stulog.schedule.domain.Subscription;
-import java.time.LocalDateTime;
+import com.maze.stulog.subscription.domain.Subscription;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
