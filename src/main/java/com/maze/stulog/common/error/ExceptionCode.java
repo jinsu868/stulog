@@ -24,7 +24,9 @@ public enum ExceptionCode {
     CALENDAR_NOT_FOUND(5000, "해당 캘린더를 찾을 수 없습니다."),
     CALENDAR_AUTHORITY_NOT_FOUND(5001, "해당 CalendarAuthority를 찾을 수 없습니다."),
     INSUFFICIENT_PERMISSION_LEVEL(5002, "캘린더 접근 권한이 부족합니다."),
-    SCHEDULE_NOT_FOUND(5003, "해당 스케줄을 찾을 수 없습니다.");
+    SCHEDULE_NOT_FOUND(5003, "해당 스케줄을 찾을 수 없습니다."),
+    SUBSCRIPTION_NOT_FOUND(5004, "해당 구독 정보를 찾을 수 없습니다."),
+    NOT_MATCH_USER_AND_SUBSCRIPTION(5005, "해당 유저의 구독 정보가 아닙니다.");
 
     private final int code;
     private final String message;

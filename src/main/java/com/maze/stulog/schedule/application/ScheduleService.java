@@ -11,13 +11,17 @@ import com.maze.stulog.schedule.domain.Calendar;
 import com.maze.stulog.schedule.domain.CalendarAuthority;
 import com.maze.stulog.schedule.domain.CalendarRole;
 import com.maze.stulog.schedule.domain.Schedule;
-import com.maze.stulog.schedule.domain.Subscription;
+import com.maze.stulog.subscription.domain.Subscription;
 import com.maze.stulog.schedule.domain.repository.CalendarAuthorityRepository;
 import com.maze.stulog.schedule.domain.repository.CalendarRepository;
 import com.maze.stulog.schedule.domain.repository.ScheduleRepository;
+import com.maze.stulog.schedule.domain.repository.SubscriptionRepository;
 import com.maze.stulog.schedule.dto.request.PersonalCalendarCreateRequest;
 import com.maze.stulog.schedule.dto.request.ScheduleCreateRequest;
+import com.maze.stulog.schedule.dto.request.ScheduleTimeRangeRequest;
 import com.maze.stulog.schedule.dto.request.ScheduleUpdateRequest;
+import com.maze.stulog.schedule.dto.response.ScheduleResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +33,7 @@ public class ScheduleService {
     private final CalendarRepository calendarRepository;
     private final CalendarAuthorityRepository calendarAuthorityRepository;
     private final ScheduleRepository scheduleRepository;
+    private final SubscriptionRepository subscriptionRepository;
 
     /**
      * @param member : 로그인 회원 정보
@@ -120,6 +125,31 @@ public class ScheduleService {
         calendarAuthority.validateRole(DELETE_SCHEDULE);
 
         scheduleRepository.delete(schedule);
+    }
+
+    /**
+     *
+     * @param member : 로그인한 유저 정보
+     * @param scheduleTimeRangeRequest : 체크된 캘린더의 일정 조회를 위한 기간 정보
+     */
+    @Transactional(readOnly = true)
+    public List<ScheduleResponse> findMyAllCheckedSchedules(
+            Member member,
+            ScheduleTimeRangeRequest scheduleTimeRangeRequest
+    ) {
+        var subscriptions = subscriptionRepository.findAllCheckedSubscriptionByMemberId(member.getId());
+        var calendars = subscriptions.stream()
+                .map(Subscription::getCalendar)
+                .toList();
+
+        var schedules = scheduleRepository.findAllByCalendarsBetweenTime(
+                calendars,
+                scheduleTimeRangeRequest.startTime(),
+                scheduleTimeRangeRequest.endTime());
+
+        return schedules.stream()
+                .map(ScheduleResponse::from)
+                .toList();
     }
 
     private Schedule findSchedule(Long scheduleId) {
