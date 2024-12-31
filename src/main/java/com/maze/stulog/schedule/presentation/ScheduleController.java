@@ -5,8 +5,11 @@ import com.maze.stulog.member.domain.Member;
 import com.maze.stulog.schedule.application.ScheduleService;
 import com.maze.stulog.schedule.dto.request.PersonalCalendarCreateRequest;
 import com.maze.stulog.schedule.dto.request.ScheduleCreateRequest;
+import com.maze.stulog.schedule.dto.request.ScheduleTimeRangeRequest;
 import com.maze.stulog.schedule.dto.request.ScheduleUpdateRequest;
+import com.maze.stulog.schedule.dto.response.ScheduleResponse;
 import java.net.URI;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,5 +68,21 @@ public class ScheduleController {
         scheduleService.deleteSchedule(scheduleId, member);
 
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     *
+     * @param member : 로그인 유저 정보
+     * @param scheduleTimeRangeRequest : 조회할 스케줄 시간 범위
+     * @return 해당 유저의 시간 범위에 해당하는 모든 스케줄을 가져온다.
+     */
+    @GetMapping("/schedules/my")
+    public ResponseEntity<List<ScheduleResponse>> findMyAllCheckedSchedules(
+            @AuthUser Member member,
+            @RequestBody ScheduleTimeRangeRequest scheduleTimeRangeRequest
+    ) {
+        var response = scheduleService.findMyAllCheckedSchedules(member, scheduleTimeRangeRequest);
+
+        return ResponseEntity.ok(response);
     }
 }

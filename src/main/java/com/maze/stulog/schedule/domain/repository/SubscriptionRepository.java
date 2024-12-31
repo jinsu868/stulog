@@ -1,7 +1,7 @@
 package com.maze.stulog.schedule.domain.repository;
 
-import com.maze.stulog.schedule.domain.Calendar;
 import com.maze.stulog.schedule.domain.Subscription;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,5 +18,9 @@ public class SubscriptionRepository {
 
     public Optional<Subscription> findById(Long subscriptionId) {
         return subscriptionJpaRepository.findById(subscriptionId);
+    }
+
+    public List<Subscription> findAllCheckedSubscriptionByMemberId(Long memberId) {
+        return subscriptionJpaRepository.findAllCheckedSubscriptionByMemberId(memberId);
     }
 }

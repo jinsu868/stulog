@@ -1,6 +1,9 @@
 package com.maze.stulog.schedule.domain.repository;
 
+import com.maze.stulog.schedule.domain.Calendar;
 import com.maze.stulog.schedule.domain.Schedule;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,5 +24,13 @@ public class ScheduleRepository {
 
     public void delete(Schedule schedule) {
         scheduleJpaRepository.delete(schedule);
+    }
+
+    public List<Schedule> findAllByCalendarsBetweenTime(
+            List<Calendar> calendars,
+            LocalDateTime startTime,
+            LocalDateTime endTime
+    ) {
+        return scheduleJpaRepository.findAllSchedulesByCalendarsAndBetweenTime(calendars, startTime, endTime);
     }
 }
