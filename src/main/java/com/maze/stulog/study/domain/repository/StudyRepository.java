@@ -1,6 +1,8 @@
 package com.maze.stulog.study.domain.repository;
 
 import com.maze.stulog.study.domain.Study;
+import com.maze.stulog.study.dto.response.StudyResponse;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,5 +23,9 @@ public class StudyRepository {
 
     public void delete(Study study) {
         studyJpaRepository.delete(study);
+    }
+
+    public List<Study> findAllStudiesInIds(List<Long> studyIds) {
+        return studyJpaRepository.findAllStudiesInIds(studyIds);
     }
 }

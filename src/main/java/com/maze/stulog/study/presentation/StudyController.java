@@ -5,10 +5,13 @@ import com.maze.stulog.member.domain.Member;
 import com.maze.stulog.study.application.StudyService;
 import com.maze.stulog.study.dto.request.StudyCreateRequest;
 import com.maze.stulog.study.dto.request.StudyUpdateRequest;
+import com.maze.stulog.study.dto.response.StudyResponse;
 import java.net.URI;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,5 +55,12 @@ public class StudyController {
         studyService.deleteStudy(studyId, member);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<StudyResponse>> findMyAllStudies(
+            @AuthUser Member member
+    ) {
+        return ResponseEntity.ok(studyService.findMyAllStudies(member));
     }
 }

@@ -18,7 +18,9 @@ import com.maze.stulog.study.domain.repository.ParticipationRepository;
 import com.maze.stulog.study.domain.repository.StudyRepository;
 import com.maze.stulog.study.dto.request.StudyCreateRequest;
 import com.maze.stulog.study.dto.request.StudyUpdateRequest;
+import com.maze.stulog.study.dto.response.StudyResponse;
 import com.maze.stulog.subscription.domain.Subscription;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,6 +116,16 @@ public class StudyService {
         studyRepository.delete(study);
     }
 
+    @Transactional(readOnly = true)
+    public List<StudyResponse> findMyAllStudies(Member member) {
+        var participations = participationRepository.findAllByMemberId(member.getId());
+        var studyIds = convertToStudyIds(participations);
+
+        return studyRepository.findAllStudiesInIds(studyIds).stream()
+                .map(StudyResponse::from)
+                .toList();
+    }
+
     private Calendar findCalendar(Long calendarId) {
         return calendarRepository.findById(calendarId)
                 .orElseThrow(() -> new BusinessException(CALENDAR_NOT_FOUND));
@@ -133,5 +145,11 @@ public class StudyService {
         if (!participation.isHost()) {
             throw new BusinessException(NOT_HOST_PARTICIPATION);
         }
+    }
+
+    private List<Long> convertToStudyIds(List<Participation> participations) {
+        return participations.stream()
+                .map(Participation::getStudyId)
+                .toList();
     }
 }

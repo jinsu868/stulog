@@ -1,6 +1,7 @@
 package com.maze.stulog.study.domain.repository;
 
 import com.maze.stulog.study.domain.Participation;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,9 @@ public class ParticipationRepository {
 
     public void deleteByStudyId(Long studyId) {
         participationJpaRepository.deleteByStudyId(studyId);
+    }
+
+    public List<Participation> findAllByMemberId(Long memberId) {
+        return participationJpaRepository.findAllByMemberId(memberId);
     }
 }
