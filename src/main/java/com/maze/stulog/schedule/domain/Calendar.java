@@ -44,4 +44,8 @@ public class Calendar {
         subscription.connectCalendar(this);
         subscriptions.add(subscription);
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
 }

@@ -1,5 +1,6 @@
 package com.maze.stulog.study.application;
 
+import static com.maze.stulog.common.error.ExceptionCode.CALENDAR_NOT_FOUND;
 import static com.maze.stulog.common.error.ExceptionCode.NOT_HOST_PARTICIPATION;
 import static com.maze.stulog.common.error.ExceptionCode.PARTICIPATION_NOT_FOUND;
 import static com.maze.stulog.common.error.ExceptionCode.STUDY_NOT_FOUND;
@@ -18,6 +19,7 @@ import com.maze.stulog.study.domain.repository.StudyRepository;
 import com.maze.stulog.study.dto.request.StudyCreateRequest;
 import com.maze.stulog.study.dto.request.StudyUpdateRequest;
 import com.maze.stulog.subscription.domain.Subscription;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,14 +39,27 @@ public class StudyService {
      *
      * @param studyCreateRequest : 스터디 정보
      * @param member : 로그인한 유저 정보
-     * @return
+     * @return : 생성한 스터디 Id
      */
     @Transactional
     public Long saveStudy(
             StudyCreateRequest studyCreateRequest,
             Member member
     ) {
+        Calendar calendar = Calendar.from(STUDY_CALENDAR_PREFIX + studyCreateRequest.title());
+        Subscription subscription = Subscription.of(calendar, member.getId());
+        calendar.addSubscription(subscription);
+        calendarRepository.save(calendar);
+
+        CalendarAuthority calendarAuthority = CalendarAuthority.create(
+                member.getId(),
+                calendar.getId(),
+                CalendarRole.ADMIN
+        );
+        calendarAuthorityRepository.save(calendarAuthority);
+
         Study study = Study.of(
+                calendar.getId(),
                 studyCreateRequest.title(),
                 studyCreateRequest.description(),
                 studyCreateRequest.capacity()
@@ -57,18 +72,6 @@ public class StudyService {
                 true
         );
         participationRepository.save(participation);
-
-        Calendar calendar = Calendar.from(STUDY_CALENDAR_PREFIX + studyCreateRequest.title());
-        Subscription subscription = Subscription.of(calendar, member.getId());
-        calendar.addSubscription(subscription);
-        calendarRepository.save(calendar);
-
-        CalendarAuthority calendarAuthority = CalendarAuthority.create(
-                member.getId(),
-                calendar.getId(),
-                CalendarRole.ADMIN
-        );
-        calendarAuthorityRepository.save(calendarAuthority);
 
         return study.getId();
     }
@@ -94,6 +97,14 @@ public class StudyService {
                 studyUpdateRequest.description(),
                 studyUpdateRequest.capacity()
         );
+
+        Calendar calendar = findCalendar(study);
+        calendar.updateName(STUDY_CALENDAR_PREFIX + studyUpdateRequest.title());
+    }
+
+    private Calendar findCalendar(Study study) {
+        return calendarRepository.findById(study.getCalendarId())
+                .orElseThrow(() -> new BusinessException(CALENDAR_NOT_FOUND));
     }
 
     private Study findStudy(Long studyId) {

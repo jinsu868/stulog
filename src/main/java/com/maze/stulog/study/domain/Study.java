@@ -19,6 +19,9 @@ public class Study {
     private Long id;
 
     @Column(nullable = false)
+    private Long calendarId;
+
+    @Column(nullable = false)
     private String title;
 
     private String description;
@@ -27,11 +30,13 @@ public class Study {
     private int capacity;
 
     public static Study of(
+            Long calendarId,
             String title,
             String description,
             int capacity
     ) {
         return new Study(
+                calendarId,
                 title,
                 description,
                 capacity
@@ -39,10 +44,12 @@ public class Study {
     }
 
     private Study(
+            Long calendarId,
             String title,
             String description,
             int capacity
     ) {
+        this.calendarId = calendarId;
         this.title = title;
         this.description = description;
         this.capacity = capacity;
