@@ -1,5 +1,10 @@
 package com.maze.stulog.study.application;
 
+import static com.maze.stulog.common.error.ExceptionCode.NOT_HOST_PARTICIPATION;
+import static com.maze.stulog.common.error.ExceptionCode.PARTICIPATION_NOT_FOUND;
+import static com.maze.stulog.common.error.ExceptionCode.STUDY_NOT_FOUND;
+
+import com.maze.stulog.common.error.BusinessException;
 import com.maze.stulog.member.domain.Member;
 import com.maze.stulog.schedule.domain.Calendar;
 import com.maze.stulog.schedule.domain.CalendarAuthority;
@@ -10,7 +15,8 @@ import com.maze.stulog.study.domain.Participation;
 import com.maze.stulog.study.domain.Study;
 import com.maze.stulog.study.domain.repository.ParticipationRepository;
 import com.maze.stulog.study.domain.repository.StudyRepository;
-import com.maze.stulog.study.dto.StudyCreateRequest;
+import com.maze.stulog.study.dto.request.StudyCreateRequest;
+import com.maze.stulog.study.dto.request.StudyUpdateRequest;
 import com.maze.stulog.subscription.domain.Subscription;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,5 +71,44 @@ public class StudyService {
         calendarAuthorityRepository.save(calendarAuthority);
 
         return study.getId();
+    }
+
+    /**
+     *
+     * @param studyId : 수정할 스터디 Id
+     * @param studyUpdateRequest : 수정할 스터디 정보
+     * @param member : 로그인한 유저 정보
+     */
+    @Transactional
+    public void updateStudy(
+            Long studyId,
+            StudyUpdateRequest studyUpdateRequest,
+            Member member
+    ) {
+        Participation participation = findParticipationByStudyAndMember(studyId, member.getId());
+        validateStudyUpdate(participation);
+
+        Study study = findStudy(studyId);
+        study.update(
+                studyUpdateRequest.title(),
+                studyUpdateRequest.description(),
+                studyUpdateRequest.capacity()
+        );
+    }
+
+    private Study findStudy(Long studyId) {
+        return studyRepository.findById(studyId)
+                .orElseThrow(() -> new BusinessException(STUDY_NOT_FOUND));
+    }
+
+    private Participation findParticipationByStudyAndMember(Long studyId, Long memberId) {
+        return participationRepository.findByStudyIdAndMemberId(studyId, memberId)
+                .orElseThrow(() -> new BusinessException(PARTICIPATION_NOT_FOUND));
+    }
+
+    private static void validateStudyUpdate(Participation participation) {
+        if (!participation.isHost()) {
+            throw new BusinessException(NOT_HOST_PARTICIPATION);
+        }
     }
 }

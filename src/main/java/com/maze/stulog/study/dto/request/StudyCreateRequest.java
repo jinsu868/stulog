@@ -1,4 +1,4 @@
-package com.maze.stulog.study.dto;
+package com.maze.stulog.study.dto.request;
 
 public record StudyCreateRequest(
         String title,

@@ -47,4 +47,14 @@ public class Study {
         this.description = description;
         this.capacity = capacity;
     }
+
+    public void update(
+            String title,
+            String description,
+            int capacity
+    ) {
+        this.title = title;
+        this.description = description;
+        this.capacity = capacity;
+    }
 }
