@@ -13,10 +13,12 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE calendar SET deleted = true where id = ?")
 public class Calendar {
 
     @Id
@@ -32,8 +34,11 @@ public class Calendar {
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
+    private boolean deleted;
+
     private Calendar(String name) {
         this.name = name;
+        this.deleted = false;
     }
 
     public static Calendar from(String name) {
@@ -43,5 +48,9 @@ public class Calendar {
     public void addSubscription(Subscription subscription) {
         subscription.connectCalendar(this);
         subscriptions.add(subscription);
+    }
+
+    public void updateName(String name) {
+        this.name = name;
     }
 }
