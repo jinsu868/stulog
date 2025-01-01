@@ -1,5 +1,8 @@
 package com.maze.stulog.study.domain;
 
+import static com.maze.stulog.common.error.ExceptionCode.NOT_HOST_PARTICIPATION;
+
+import com.maze.stulog.common.error.BusinessException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,5 +56,9 @@ public class Participation {
         this.memberId = memberId;
         this.studyId = studyId;
         this.isHost = isHost;
+    }
+
+    public boolean isHost() {
+        return isHost;
     }
 }
