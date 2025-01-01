@@ -32,6 +32,8 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    private String description;
+
     public static Member of(
             String socialId,
             String name,
@@ -57,5 +59,15 @@ public class Member {
 
     public boolean isAdmin() {
         return role == Role.ADMIN;
+    }
+
+    public void update(
+            String name,
+            String description,
+            String profile
+    ) {
+        this.name = name;
+        this.description = description;
+        this.profile = profile;
     }
 }
