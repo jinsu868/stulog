@@ -12,10 +12,12 @@ import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE schedule SET deleted = true where id = ?")
 public class Schedule {
 
     @Id
@@ -37,6 +39,8 @@ public class Schedule {
 
     @Column(nullable = false)
     private LocalDateTime endTime;
+
+    private boolean deleted;
 
     public static Schedule createSchedule(
             Calendar calendar,
@@ -66,6 +70,7 @@ public class Schedule {
         this.content = content;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.deleted = false;
     }
 
     public void update(

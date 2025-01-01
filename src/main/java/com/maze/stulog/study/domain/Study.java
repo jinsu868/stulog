@@ -8,10 +8,14 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE study SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted = false")
 public class Study {
 
     @Id
@@ -28,6 +32,8 @@ public class Study {
 
     @Column(nullable = false)
     private int capacity;
+
+    private boolean deleted;
 
     public static Study of(
             Long calendarId,
@@ -53,6 +59,7 @@ public class Study {
         this.title = title;
         this.description = description;
         this.capacity = capacity;
+        this.deleted = false;
     }
 
     public void update(
