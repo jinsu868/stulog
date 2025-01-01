@@ -18,4 +18,8 @@ public class CalendarAuthorityRepository {
     public Optional<CalendarAuthority> findByMemberIdAndCalendarId(Long memberId, Long calendarId) {
         return calendarAuthorityJpaRepository.findByMemberIdAndCalendarId(memberId, calendarId);
     }
+
+    public void deleteByCalendarId(Long calendarId) {
+        calendarAuthorityJpaRepository.deleteByCalendarId(calendarId);
+    }
 }

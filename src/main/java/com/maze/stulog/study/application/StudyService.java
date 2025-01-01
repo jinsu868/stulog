@@ -19,7 +19,6 @@ import com.maze.stulog.study.domain.repository.StudyRepository;
 import com.maze.stulog.study.dto.request.StudyCreateRequest;
 import com.maze.stulog.study.dto.request.StudyUpdateRequest;
 import com.maze.stulog.subscription.domain.Subscription;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,12 +97,25 @@ public class StudyService {
                 studyUpdateRequest.capacity()
         );
 
-        Calendar calendar = findCalendar(study);
+        Calendar calendar = findCalendar(study.getCalendarId());
         calendar.updateName(STUDY_CALENDAR_PREFIX + studyUpdateRequest.title());
     }
 
-    private Calendar findCalendar(Study study) {
-        return calendarRepository.findById(study.getCalendarId())
+    @Transactional
+    public void deleteStudy(Long studyId, Member member) {
+        Participation participation = findParticipationByStudyAndMember(studyId, member.getId());
+        validateStudyUpdate(participation);
+
+        Study study = findStudy(studyId);
+
+        calendarRepository.deleteById(study.getCalendarId());
+        calendarAuthorityRepository.deleteByCalendarId(study.getCalendarId());
+        participationRepository.deleteByStudyId(study.getId());
+        studyRepository.delete(study);
+    }
+
+    private Calendar findCalendar(Long calendarId) {
+        return calendarRepository.findById(calendarId)
                 .orElseThrow(() -> new BusinessException(CALENDAR_NOT_FOUND));
     }
 

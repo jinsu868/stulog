@@ -18,4 +18,8 @@ public class ParticipationRepository {
     public Optional<Participation> findByStudyIdAndMemberId(Long studyId, Long memberId) {
         return participationJpaRepository.findByStudyIdAndMemberId(studyId, memberId);
     }
+
+    public void deleteByStudyId(Long studyId) {
+        participationJpaRepository.deleteByStudyId(studyId);
+    }
 }

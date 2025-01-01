@@ -18,4 +18,8 @@ public class StudyRepository {
     public Optional<Study> findById(Long studyId) {
         return studyJpaRepository.findById(studyId);
     }
+
+    public void delete(Study study) {
+        studyJpaRepository.delete(study);
+    }
 }
