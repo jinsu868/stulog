@@ -6,6 +6,7 @@ import com.maze.stulog.common.error.BusinessException;
 import com.maze.stulog.member.domain.Member;
 import com.maze.stulog.member.domain.MemberRepository;
 import com.maze.stulog.member.dto.request.MemberUpdateRequest;
+import com.maze.stulog.member.dto.response.MemberDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,11 @@ public class MemberService {
                 memberUpdateRequest.description(),
                 memberUpdateRequest.profile()
         );
+    }
+
+    public MemberDetailResponse findById(Long memberId) {
+        Member member = findMember(memberId);
+        return MemberDetailResponse.from(member);
     }
 
     private Member findMember(Long memberId) {

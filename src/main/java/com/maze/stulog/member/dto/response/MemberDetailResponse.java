@@ -8,7 +8,7 @@ public record MemberDetailResponse(
         String profile,
         String description
 ) {
-    public static MemberDetailResponse of(Member member) {
+    public static MemberDetailResponse from(Member member) {
         return new MemberDetailResponse(
                 member.getId(),
                 member.getName(),
