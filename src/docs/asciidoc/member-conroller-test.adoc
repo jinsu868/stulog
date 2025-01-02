@@ -1,4 +1,4 @@
-== UserController
+== MemberController
 
 === 내 정보 조회 (GET /api/v1/members/me)
 
