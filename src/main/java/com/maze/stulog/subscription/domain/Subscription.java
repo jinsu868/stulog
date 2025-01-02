@@ -2,6 +2,7 @@ package com.maze.stulog.subscription.domain;
 
 import static com.maze.stulog.common.error.ExceptionCode.NOT_MATCH_USER_AND_SUBSCRIPTION;
 
+import com.maze.stulog.common.entity.BaseTimeEntity;
 import com.maze.stulog.common.error.BusinessException;
 import com.maze.stulog.schedule.domain.Calendar;
 import jakarta.persistence.Column;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Subscription {
+public class Subscription extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

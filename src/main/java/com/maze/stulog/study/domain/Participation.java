@@ -2,6 +2,7 @@ package com.maze.stulog.study.domain;
 
 import static com.maze.stulog.common.error.ExceptionCode.NOT_HOST_PARTICIPATION;
 
+import com.maze.stulog.common.entity.BaseTimeEntity;
 import com.maze.stulog.common.error.BusinessException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
         @UniqueConstraint(name = "UniqueMemberAndStudy",
                 columnNames = {"memberId", "studyId"})
 })
-public class Participation {
+public class Participation extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
