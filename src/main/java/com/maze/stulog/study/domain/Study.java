@@ -1,5 +1,6 @@
 package com.maze.stulog.study.domain;
 
+import com.maze.stulog.common.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ import org.hibernate.annotations.SQLRestriction;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE study SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted = false")
-public class Study {
+public class Study extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

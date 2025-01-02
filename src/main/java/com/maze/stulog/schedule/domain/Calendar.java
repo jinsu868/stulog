@@ -1,5 +1,6 @@
 package com.maze.stulog.schedule.domain;
 
+import com.maze.stulog.common.entity.BaseTimeEntity;
 import com.maze.stulog.subscription.domain.Subscription;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.SQLDelete;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE calendar SET deleted = true where id = ?")
-public class Calendar {
+public class Calendar extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,6 +2,7 @@ package com.maze.stulog.schedule.domain;
 
 import static com.maze.stulog.common.error.ExceptionCode.*;
 
+import com.maze.stulog.common.entity.BaseTimeEntity;
 import com.maze.stulog.common.error.BusinessException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CalendarAuthority {
+public class CalendarAuthority extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
