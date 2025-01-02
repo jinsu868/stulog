@@ -1,0 +1,31 @@
+== UserController
+
+=== 내 정보 조회 (GET /api/v1/members/me)
+
+==== 요청
+
+include::{snippets}/member-controller-test/get-me/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-test/get-me/http-response.adoc[]
+
+=== 내 정보 수정 (PATCH /api/v1/members)
+
+==== 요청
+
+include::{snippets}/member-controller-test/update-member/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-test/update-member/http-response.adoc[]
+
+=== 다른 유저 정보 조회 (GET /api/v1/members/{memberId})
+
+==== 요청
+
+include::{snippets}/member-controller-test/find-by-id/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-test/find-by-id/http-response.adoc[]
